@@ -1,0 +1,10 @@
+# DOBBY backend runtime dependencies
+# Versions are pinned to the working project virtual environment.
+
+accelerate==1.15.0
+fastapi==0.162.0
+numpy==2.5.4
+pydantic==2.14.3
+torch==2.15.0
+transformers==5.22.1
+uvicorn==0.54.0
