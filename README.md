@@ -8,7 +8,7 @@ DOBBY is a locally running conversational AI project built around a custom chat 
 
 - **Local text generation:** Uses Qwen2.5-1.5B-Instruct through the Python model stack for local inference.
 - **Conversation storage:** Stores chat history in SQLite.
-- **Semantic conversation retrieval:** Uses sentence embeddings from `all-MiniLM-L6-v2` to find potentially relevant earlier conversation context.
+- **Semantic conversation retrieval:** Uses the all-MiniLM-L6-v2 encoder to find potentially relevant earlier conversation context.
 - **Custom chat interface:** React and Vite frontend with a matte-black visual design and a custom monochrome DOBBY mascot.
 - **Chat management:** Create and select chats, rename, pin, archive/restore, and delete conversations. The current UI also supports copying/sharing a transcript through the clipboard.
 
@@ -45,7 +45,7 @@ Some interface features (such as pinning, archiving, and the chat lock) are loca
 | Frontend | React, Vite, JavaScript |
 | Backend | Python, FastAPI |
 | Language model | Qwen2.5-1.5B-Instruct |
-| Embeddings | sentence-transformers / all-MiniLM-L6-v2 |
+| Embeddings | all-MiniLM-L6-v2 encoder |
 | Storage | SQLite |
 | Model runtime | PyTorch, Hugging Face Transformers |
 
@@ -63,6 +63,7 @@ Multi Model AI/
 │   └── memory.py
 ├── frontend/
 │   ├── package.json
+│   ├── package-lock.json
 │   └── src/
 ├── memory/              # Local SQLite databases (not committed)
 ├── models/              # Downloaded model files (not committed)
@@ -83,8 +84,6 @@ The model weights are **not** included in this repository. They must be download
 
 ## Installation
 
-The repository's public source is being prepared for its first release. Installation commands below describe the standard development workflow; verify model download/configuration paths in the current source before running the backend.
-
 ### 1. Clone
 
 ```powershell
@@ -98,21 +97,20 @@ cd DOBBY-Local-AI
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-```
-
-Install the Python dependencies listed in `requirements.txt` once that file has been generated from the working development environment:
-
-```powershell
 pip install -r requirements.txt
 ```
+
+The Python dependencies are pinned to the versions in the development virtual environment. PyTorch installation can vary by hardware and CUDA support; consult the official PyTorch installation selector if you need a GPU-specific build.
 
 ### 3. Frontend
 
 ```powershell
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
+
+Use `npm ci` to install the exact dependency tree recorded in `package-lock.json`.
 
 ### 4. Run the backend
 
